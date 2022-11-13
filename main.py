@@ -13,10 +13,11 @@ if __name__ == '__main__':
     command = sys.argv[1]
     parser = argparse.ArgumentParser()
 
-    if command == 'scrape_data':
+    if command == 'scrape':
         parser.add_argument('--workers', default=4)
         parser.add_argument("-t", "--transcribe", action='store_true')
         parser.add_argument("-s", "--split_on_silence", action='store_true')
+        parser.add_argument("-m", "--merge_folders", action='store_true')
         args, lf_args = parser.parse_known_args()
 
         # post_process_seperate_backing_track = True if input('seperate_backing_track? (y/n)') == 'y' else False
@@ -62,8 +63,12 @@ if __name__ == '__main__':
             #     print('Multiprocessing failed retrying linearly')
             #     for filepath in tqdm(output_filepaths):
             #         diarize_speakers(filepath, diarize_access_token)
-
-
+        if args.merge_folders:
+            for folder in tqdm(os.listdir(f"{config['post_processing']['output_path']}")):
+                for file in os.listdir(f"{config['post_processing']['output_path']}/{folder}"):
+                    shutil.move(f"{config['post_processing']['output_path']}/{folder}/{file}", f'{args.output_dir}/{file}')
+                shutil.rmtree(f"{config['post_processing']['output_path']}/{folder}")
+                    
     elif command == 'asr':
         args, lf_args = parser.parse_known_args()
         asr_config = open_configs(['config'])[0]['asr']
@@ -76,5 +81,13 @@ if __name__ == '__main__':
         parser.add_argument('--seperate_backing_track', action='store_true')
         parser.add_argument('--diarize_speakers', action='store_true')
         args, lf_args = parser.parse_known_args()
-
         config = open_configs(['config'])        
+
+    elif command == 'merge_folders':
+        parser.add_argument('--input_dir', required=True)
+        parser.add_argument('--output_dir', required=True)
+        args, lf_args = parser.parse_known_args()
+
+        for folder in tqdm(os.listdir(f'{args.input_dir}')):
+            for file in os.listdir(f'{args.input_dir}/{folder}'):
+                shutil.move(f'{args.input_dir}/{folder}/{file}', f'{args.output_dir}/{file}')

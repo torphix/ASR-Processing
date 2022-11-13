@@ -1,6 +1,7 @@
 scraper:
   links: 
-    - https://www.youtube.com/watch?v=uSTYVoYUEOs
+    - https://www.youtube.com/watch?v=DkS1pkKpILY
+    - https://www.youtube.com/watch?v=gXvuJu1kt48
 
   channel_link: 
   scrape_n_videos_from_channel: 4 # -1 to scrape all 
@@ -8,7 +9,7 @@ scraper:
 
 asr:
   # delete_corrupted_audio: True
-  input_path: data/stanleys_parable
+  input_path: data/processed_data
   model_type: medium.en
   max_wav_len: 20 # in seconds dels longer wavs
 
@@ -16,6 +17,6 @@ post_processing:
   input_path: data/raw_data
   output_path: data/processed_data
   split_on_silence:
-    min_silence_len: 150
-    keep_silence: 500
+    min_silence_len: 400 # in ms
+    keep_silence: True
     silence_thresh: -40

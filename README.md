@@ -12,7 +12,7 @@
     - use command python main.py scrape_data --postprocess (Optional)
 - Scrape videos by individual links:
     - Provide a list like object to scraper > links
-    - use command python main.py scrape_data --postprocess (Optional)
+    - use command python main.py scrape --postprocess (Optional)
 - Respond to various audio cleaning requests
 - Ensure processing parameters are to your liking in configs/config.yaml (though defaults should suffice)
 

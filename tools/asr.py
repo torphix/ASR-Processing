@@ -46,9 +46,8 @@ class ASR:
         # if sr*self.config['max_wav_len'] > wav.shape[0]:
         #     skipped_files += 1
         #     return
-        # if os.path.exists(f'{input_path.split(".")[0]}.txt'):
-        #     return
-        # del wav
+        if os.path.exists(f'{input_path.split(".")[0]}.txt'):
+            return
         
         result = self.model.transcribe(input_path)
         with open(f'{input_path.split(".")[0]}.txt', 'w') as f:
